@@ -1,0 +1,147 @@
+/*SUPPLIER TABLE */
+create table suppliers(
+supplier_name varchar2(20),
+supplier_id number(5) primary key,
+supplier_phone varchar2(11));
+
+
+create table ingrediants(
+ing_name varchar2(20),
+ing_id number(5) primary key,
+supplier_id number(5),
+stored_quantity number(5),
+imported_quantity number(5),
+bought_price number(5));
+
+/*ADD FOREIGN KEY ON INGREDIANTS TABLE */
+alter table ingrediants
+add foreign key(supplier_id) references suppliers(supplier_id);
+
+
+create table meals(
+meal_name varchar2(20) primary key,
+ingredient_id number(5) ,
+price number(6));
+
+
+
+
+alter table meals
+add foreign key(ingredient_id) references ingrediants(ing_id);
+
+
+create table orders(
+order_time date,
+order_number number(5) primary key,
+order_type varchar2(20),
+customer_id number(5),
+total_price number(6),
+emp_id number(6));
+
+
+create table order_detalis(
+order_details_id number(5) primary key,
+order_number number(5) ,
+meal_quantity number(6),
+price number(6),
+meal_name varchar2(20)
+);
+
+
+alter table order_detalis
+add foreign key(order_number) references orders(order_number);
+
+
+
+alter table order_detalis
+add foreign key(meal_name) references meals(meal_name);
+
+
+
+create table customers(
+cust_name varchar2(20),
+cust_number number(5) primary key,
+street varchar2(20),
+city varchar2(20),
+phone varchar2(11),
+frist_time number(1)
+);
+
+
+alter table orders
+add foreign key(customer_id) references customers(cust_number);
+
+alter table orders
+add foreign key(emp_id) references employees(employee_id);
+
+create table departments(
+department_id number(5) primary key,
+department_name varchar2(20));
+
+
+create table employees(
+first_name varchar2(20),
+last_name varchar2(20),
+job_name varchar2(20),
+phone varchar2(11),
+employee_id number(5) primary key,
+birth_date date,
+department_id number(5),
+salary number(6),
+work_hours number(5),
+sex varchar2(10));
+
+
+alter table employees
+add foreign key(department_id) references departments(department_id);
+
+
+
+insert into departments
+values(1 , 'manager' );
+insert into employees
+values('merna' , 'tarek' ,'manager' ,  '12345' ,1, '5-may-2002', 1 , 5000  , 2030 , 'f');
+insert into departments
+values(2 , 'head manager' );
+insert into employees
+values('mayar' , 'hisham' ,'head manager' ,  '6789' ,2, '5-may-2002', 2 , 6000  , 2020 , 'f');
+insert into suppliers
+values('ahmed' , 4 , '1000');
+insert into suppliers
+values('khaled' , 5 , '1023');
+insert into ingrediants
+values('potatos' , 10 , 5 , 3 , 4 , 10);
+insert into ingrediants
+values('chicken' , 20 , 4 , 5 , 8 , 30);
+
+insert into meals
+values('chicken with rice' , 20 , 60);
+insert into meals
+values('french fries' , 10 , 20);
+insert into meals
+values('Grilled chicken' , 20 , 66);
+
+insert into customers
+values('menna' , 1 , 'el waha' , 'cairo' , '010111' , 1);
+
+insert into customers
+values('reem' , 2 , 'makram' , 'cairo' , '0101001' , 0);
+
+insert into orders
+values('3-may-2022' , 1 , 'delivery' , 1 ,250, 1 );
+
+insert into orders
+values('5-may-2022' , 2 , 'delivery' , 2 ,150, 2 );
+
+
+
+insert into ORDER_DETALIS
+values(1 , 1, 2 , 100, 'Grilled chicken');
+insert into ORDER_DETALIS
+values(2 , 1, 1 , 20, 'french fries');
+
+insert into ORDER_DETALIS
+values(3 , 2, 4 , 55, 'hamburger');
+insert into ORDER_DETALIS
+values(4 , 2, 2 , 20, 'french fries');
+/FINISHED/
